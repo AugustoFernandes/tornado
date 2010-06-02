@@ -768,7 +768,7 @@ class RequestHandler():
                 self.check_xsrf_cookie()
             self.prepare()
             if not self._finished:
-                if str(self.__class__).count('tornado.contrib.easy_app') == 1:
+                if str(self.__class__).count('EasyRequestHandler') == 1:
                     args = args + tuple([self])
                 getattr(self, self.request.method.lower())(*args, **kwargs)
                 if self._auto_finish and not self._finished:

@@ -45,7 +45,7 @@ def start_class(obj):
             continue
         func = getattr(obj, name)
         if func.__name__ != expose_post.__name__ and  func.__name__ != expose_get.__name__:
-            _name = "Handler-" + func.url
+            _name = "EasyRequestHandler-" + func.url
             methods_dict = { func.method : func }
             _class = new.classobj(name,(tornado.web.EasyRequestHandler, ), methods_dict)
             handlers.append((func.url, _class))
@@ -63,11 +63,11 @@ def start_module(mod_name):
             if obj.__name__ != expose_post.__name__ and  obj.__name__ != expose_get.__name__ and obj.__name__ != 'start':
                 _name = "Handler-" + obj.url
                 methods_dict = { obj.method : obj }
-                _class = new.classobj(name,(tornado.web.RequestHandler, ), methods_dict)
+                _class = new.classobj(_name,(tornado.web.RequestHandler, ), methods_dict)
                 handlers.append((obj.url, _class))
     return handlers
- 
-def start(obj, settings, port=8888):
+
+def start(obj, settings={}, port=8888):
     handlers = []
     if inspect.isclass(obj):
         handlers = start_class(obj)

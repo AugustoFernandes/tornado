@@ -4,9 +4,13 @@ class MainHandler():
     target = r'/(\w+)'
     def get(self, name):
         self.write("Hello %s" % name)
+        
+@expose_get('/test/(\w+)') 
+def test(tornado, name):
+    tornado.write(name)
 
 @expose_get('/home/') 
-def home(request):
-    request.write("Homee")
-        
-start('app')
+def home(tornado):
+    tornado.write("Homee")
+    
+start(__name__)
