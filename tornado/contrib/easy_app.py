@@ -57,8 +57,9 @@ def start_module(mod_name):
     for name in dir(mod):
         obj = getattr(mod, name)
         if inspect.isclass(obj):
-            obj.__bases__ =  (tornado.web.RequestHandler,)
-            handlers.append((obj.target, obj))
+            if hasattr(obj, 'target'):
+                obj.__bases__ =  (tornado.web.RequestHandler,)
+                handlers.append((obj.target, obj))
         if inspect.isfunction(obj):
             if obj.__name__ != expose_post.__name__ and  obj.__name__ != expose_get.__name__ and obj.__name__ != 'start':
                 _name = "Handler-" + obj.url
