@@ -1,7 +1,8 @@
 from tornado.contrib.easy_app import start, expose_get, expose_post
+from forms import LoginForm
 
 class MainHandler():
-    target = r'/(\w+)'
+    target = r'/main/(\w+)'
     def get(self, name):
         self.write("Hello %s" % name)
         
@@ -11,6 +12,21 @@ def test(tornado, name):
 
 @expose_get('/home/') 
 def home(tornado):
-    tornado.write("Homee")
+    form = LoginForm()
+    tornado.write('<form action="/homep" method="post">' +
+                  form.as_p() +
+                  '<input type="submit" value="ok"></form>')
+    
+@expose_post('/homep') 
+def homep(tornado):
+    form = LoginForm(tornado.request.arguments)
+    if form.is_valid():
+        tornado.write('<form action="/homep" method="post">' +
+                  form.as_p() +
+                  '<input type="submit" value="ok"></form>')
+    else:
+        tornado.write('<form action="/homep" method="post">' +
+                  form.as_p() +
+                  '<input type="submit" value="ok"></form>')
     
 start(__name__)
