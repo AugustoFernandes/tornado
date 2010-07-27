@@ -47,7 +47,7 @@ def start_class(obj):
         if func.__name__ != expose_post.__name__ and  func.__name__ != expose_get.__name__:
             _name = "EasyRequestHandler-" + func.url
             methods_dict = { func.method : func }
-            _class = new.classobj(name,(tornado.web.EasyRequestHandler, ), methods_dict)
+            _class = new.classobj(_name,(tornado.web.EasyRequestHandler, ), methods_dict)
             handlers.append((func.url, _class))
     return handlers
 
